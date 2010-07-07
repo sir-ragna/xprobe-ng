@@ -1,0 +1,7 @@
+I already added ip6.cc in the distribution, but
+its just code to play with. However I was able
+to send own constructed ICMPv6 packets already
+(using usi++ :).
+
+*EXPERIMENTAL*
+
