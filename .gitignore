@@ -1,0 +1,11 @@
+*.o
+*~
+Makefile
+config.log
+config.status
+config.h
+*.a
+defines.h
+.project
+.cproject
+*.cache

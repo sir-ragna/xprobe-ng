@@ -23,6 +23,7 @@
 #define TARGET_H
 
 #include "xprobe.h"
+#include "packettor.h"
 
 using namespace std;
 
@@ -71,10 +72,11 @@ class Signature {
 		void append_sig(string key, string val) {  key_val.insert(pair<string, string>(key, val)); }
 		void print_sig(void);
 		string get_sig(int *);
-		void signull(void) { key_val.clear(); } 
+		void signull(void) { key_val.clear(); }
 };
 class Target {
     private:
+        Packettor pktr;
         struct in_addr addr;
 		long send_delay; // delay in microsecs when sending packs
         map <int, char> tcp_ports;
@@ -96,7 +98,7 @@ class Target {
     Target(struct in_addr a) { set_addr(a); gen_sig = showroute = false; send_delay = distance = 0; rtt = 0.0; }
     Target(unsigned long int a) { addr.s_addr = a; gen_sig = showroute = false; send_delay = distance = 0; rtt = 0.0; }
     void set_addr(struct in_addr a) {
-        memcpy((void *)&addr, (void *)&a, sizeof(struct in_addr));     
+        memcpy((void *)&addr, (void *)&a, sizeof(struct in_addr));
     }
     struct in_addr get_addr(void) { return addr; }
     /*              protocol, port, status */
@@ -117,7 +119,7 @@ class Target {
     int get_ttl(int);
 	void set_delay(long k) { send_delay = k; }
 	long get_delay(void) { return send_delay; }
-   	bool show_route(void) { return showroute; } 
+   	bool show_route(void) { return showroute; }
 	void show_route(bool sr) { showroute = sr; }
 	void set_tcp_ports (map <int, char> *tp);
 	void set_udp_ports (map <int, char> *up);
@@ -133,6 +135,7 @@ class Target {
 	void signature(const char *, const char *);
 	void signull(void) { fingerprint.signull(); }
 	bool port_is_open(int proto, int port);
+    void set_packettor(Packettor&);
 };
 
 #endif /* TARGET_H */

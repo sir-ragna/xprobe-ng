@@ -35,6 +35,7 @@ p->run();
 Packettor::Packettor(void) {
 printf("Initializing packet capture\n");
 done = false;
+initialized = false;
 max_data_len = 1500;
 t =thread(run_packettor, this);
 
@@ -47,12 +48,19 @@ t.join();
 
 int Packettor::add_interface(char *iface) {
     pcap = Pcap();
+    cout << "Adding interface " << iface << "\n";
     pcap.init_device(iface, 1, max_data_len);
+    initialized = true;
 
 }
 void Packettor::run(void) {
+    char buf[1500];
 
     while (!done) {
+        if (initialized == true) {
+            pcap.sniffpack(buf, sizeof(buf));
+            cout << "got packet\n";
+        }
 
     }
 

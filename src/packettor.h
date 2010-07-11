@@ -35,6 +35,7 @@ using namespace usipp;
 
 class Packettor {
 private:
+    bool initialized;
     bool done;
     int max_data_len;
     thread t;

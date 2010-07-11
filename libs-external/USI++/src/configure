@@ -5387,7 +5387,6 @@ $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
 
-ln -s ../usi++ usi++||true
-rm -f usi++/config.h||true
-cp config.h usi++/config.h
+rm -f ../usi++/config.h||true
+cp config.h ../usi++/config.h
 

@@ -2,15 +2,15 @@
  *** You may use it under the terms of the GPL. You should have
  *** already received the file COPYING that shows you your rights.
  *** Please look at COPYING for further license-details.
- ***  
+ ***
  *** THERE IS ABSOLUTELY NO WARRANTY. SO YOU USE IT AT YOUR OWN RISK.
  *** IT WAS WRITTEN IN THE HOPE THAT IT WILL BE USEFULL. I AM NOT RESPONSIBLE
  *** FOR ANY DAMAGE YOU MAYBE GET DUE TO USING MY PROGRAMS.
  ***/
 
 
-#ifndef _UDP_H_
-#define _UDP_H_
+#ifndef _USI_UDP_H_
+#define _USI_UDP_H_
 
 #include "usi-structs.h"
 #include "datalink.h"
@@ -30,16 +30,16 @@ public:
 	/*! Expects Host.
 	 */
 	UDP(const char*);
-      
+
 	/*! Destructor
 	 */
 	virtual ~UDP();
 
-	/*! Copy-Constructor 
+	/*! Copy-Constructor
 	 */
 	UDP(const UDP &);
 
-	/*! Assign-operator 
+	/*! Assign-operator
 	 */
 	UDP &operator=(const UDP&);
 
@@ -78,19 +78,19 @@ public:
 	int set_udpsum(u_int16_t);
 
 	/*! Return complete UDP header.
-	 *  Usefull for some kinds of ICMP messages 
+	 *  Usefull for some kinds of ICMP messages
 	 */
 	udphdr get_udphdr();
 
 	/*! Send an UDP-datagramm, containing 'paylen' bytes of data.
-	 */    
+	 */
 	virtual int sendpack(void*, size_t);
-      
+
 	/*!*/
 	virtual int sendpack(char*);
 
 	/*! Capture packets that are not for our host.
-	 */ 
+	 */
 	virtual int sniffpack(void*, size_t);
 
 	/*! Initialize a device ("eth0" for example) for packet-
@@ -99,7 +99,7 @@ public:
 	*  Fetch at most 'snaplen' bytes per call.
 	*/
 	virtual int init_device(char *, int promisc, size_t snaplen);
-      
+
 };   // class UDP {}
 
 } // namespace usipp

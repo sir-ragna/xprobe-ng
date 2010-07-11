@@ -21,7 +21,7 @@
 extern "C" {
 #include <pcap.h>
 }
-#include "usi++"
+#include "usi-build.h"
 
 #ifndef MAXHOSTLEN
 #define MAXHOSTLEN 1000

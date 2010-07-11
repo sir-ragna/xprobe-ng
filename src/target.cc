@@ -74,7 +74,7 @@ int Target_Net::parse_host(char *target) {
         free(host_ascii);
         return FAIL;
     }
-    addr &= mask; 
+    addr &= mask;
     free(host_ascii);
     return OK;
 }
@@ -110,7 +110,7 @@ int Target_Net::init(char *target) {
     counter = ntohl(addr);
     return OK;
 }
-    
+
 unsigned long Target_Net::getnext(void) {
 
     if (counter > ntohl(addr|mask^0xffffffff))
@@ -155,7 +155,7 @@ void Target::add_port(int proto, int port, char s) {
         case IPPROTO_TCP:
             add_p(&tcp_ports, port, s);
             break;
-        case IPPROTO_UDP:    
+        case IPPROTO_UDP:
             add_p(&udp_ports, port, s);
             break;
         default:
@@ -170,10 +170,10 @@ int Target::get_port(int proto, int s) {
         case IPPROTO_TCP:
             return (find_stat_p(&tcp_ports, s));
             break;
-        case IPPROTO_UDP:    
+        case IPPROTO_UDP:
             return (find_stat_p(&udp_ports, s));
             break;
-        case IPPROTO_ICMP:    
+        case IPPROTO_ICMP:
             return (find_stat_p(&tcp_ports, s));
             break;
         default:
@@ -190,7 +190,7 @@ bool Target::port_is_open(int proto, int port) {
 			if (iter == tcp_ports.end()) return false;
 			if (iter->second == XPROBE_TARGETP_OPEN) return true;
             break;
-        case IPPROTO_UDP:    
+        case IPPROTO_UDP:
 			iter = udp_ports.find(port);
 			if (iter == udp_ports.end()) return false;
 			if (iter->second == XPROBE_TARGETP_OPEN || iter->second == XPROBE_TARGETP_FILTERED)
@@ -228,7 +228,7 @@ void Target::set_ttl(int type, int val) {
 
 int Target::get_ttl(int type) {
     map <int, int>::iterator ttls_i;
-			    
+
     ttls_i = ttls.find(type);
     if (ttls_i != ttls.end()) return (*ttls_i).second;
     return FAIL;
@@ -305,7 +305,7 @@ int Target::os_probe(void) {
 
 int Target::gather_info(void) {
 	OS_Matrix *os = new OS_Matrix(xmh->loaded_mods_num(XPROBE_MODULE_INFOGATHER));
-	
+
 	xml->log(XPROBELOG_INFO_SESS_START, "starting info gathering");
 	xmh->exec(XPROBE_MODULE_INFOGATHER, this, os);
 	xml->log(XPROBELOG_INFO_SESS_END, "info gathering ended\n");
@@ -315,10 +315,10 @@ int Target::gather_info(void) {
 
 void Target::set_tcp_ports(map <int, char> *tp) {
  	map <int, char>::iterator p_i;
- 
+
 	for (p_i = (*tp).begin(); p_i != (*tp).end(); p_i++) {
 		// already inserted values should not be overwritten
-		if (tcp_ports.find((*p_i).first) == tcp_ports.end()) 
+		if (tcp_ports.find((*p_i).first) == tcp_ports.end())
 			tcp_ports.insert((*p_i));
 	}
 
@@ -326,10 +326,10 @@ void Target::set_tcp_ports(map <int, char> *tp) {
 
 void Target::set_udp_ports(map <int, char> *up) {
  	map <int, char>::iterator p_i;
- 
+
 	for (p_i = (*up).begin(); p_i != (*up).end(); p_i++) {
 		// already inserted values should not be overwritten
-		if (udp_ports.find((*p_i).first) == udp_ports.end()) 
+		if (udp_ports.find((*p_i).first) == udp_ports.end())
 			udp_ports.insert((*p_i));
 	}
 
@@ -349,6 +349,13 @@ string Target::signature() {
 	return fingerprint.get_sig(&k);
 }
 
+
+void Target::set_packettor(Packettor &pk) {
+    pktr = pk;
+    pktr.add_interface(get_interface());
+
+}
+
 void Port_Range::set_range(u_short a, u_short b) {
 
 	if (a >= b) {
@@ -363,16 +370,16 @@ void Port_Range::set_range(u_short a, u_short b) {
 
 int Port_Range::get_next(u_short *port) {
 	int k, sz=size();
-	
+
 	if (curr+low > high)
 		return 1;
 	else if (curr == 0) { /* first call to get_next() */
 		// initialize
-		for (k=0; k < sz; k++) 
+		for (k=0; k < sz; k++)
 			ports.push_back(low + k);
 		random_shuffle(ports.begin(), ports.end());
 		*port = ports[curr++];
-	} else 
+	} else
 		*port = ports[curr++];
 	return 0;
 }
@@ -405,5 +412,5 @@ string Signature::get_sig(int *kcount) {
 		(*kcount)++;
 	}
 	retval.append("}\n");
-	return retval;	
+	return retval;
 }

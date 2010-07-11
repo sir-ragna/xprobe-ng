@@ -51,7 +51,6 @@ AC_HEADER_TIME
 dnl Checks for library functions.
 AC_OUTPUT(Makefile)
 
-ln -s ../usi++ usi++||true
-rm -f usi++/config.h||true
-cp config.h usi++/config.h
+rm -f ../usi++/config.h||true
+cp config.h ../usi++/config.h
 

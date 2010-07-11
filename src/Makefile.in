@@ -45,9 +45,9 @@ XPLIBS= xplib/libxplib.a ../libs-external/USI++/src/libusi++.a
 MODOBJS=xpmodules/alive_probe/alive_probe.a \
 	xpmodules/os_probe/os_probe.a $(XPLIBS)
 
-all: lib xprobe3
+all: lib xprobe-ng
 
-xprobe3: $(OBJS) modules parallelxprobe
+xprobe-ng: $(OBJS) modules parallelxprobe
 	$(CXX) $(CFLAGS) $(OBJS) $(MODOBJS) -o $@ $(LDFLAGS) $(LIBS)
 	strip $@    
 

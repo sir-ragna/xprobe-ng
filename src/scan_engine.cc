@@ -53,7 +53,7 @@ int Scan_Engine::run(void) {
     Packettor pk = Packettor();
 
     while((tg = targets->getnext()) != NULL) {
-	    //tg->set_pakettor(pk);
+	    tg->set_packettor(pk);
         tg->show_route(cfg->show_route());
 		tg->set_udp_ports(cfg->get_udp_ports());
 		tg->set_tcp_ports(cfg->get_tcp_ports());

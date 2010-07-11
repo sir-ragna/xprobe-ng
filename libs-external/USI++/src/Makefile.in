@@ -2,7 +2,7 @@
 #
 
 LIBS=@LIBS@
-CFLAGS=@CFLAGS@ -I/usr/include/pcap -I. -Wall -fPIC
+CFLAGS=@CFLAGS@ -I/usr/include/pcap -I../ -Wall -fPIC
 CXX=@CXX@
 INSTALL=@INSTALL@
 RANLIB=@RANLIB@
@@ -10,7 +10,7 @@ RANLIB=@RANLIB@
 all: usi++
 
 distclean:
-	rm -f *.o *.a *.so Makefile *\~ usi++/config.h config.log config.status usi++
+	rm -rf *.o *.a *.so Makefile *\~ usi++/config.h config.log config.status usi++ *.cache
 clear:
 	rm -f *.o
 

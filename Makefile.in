@@ -82,3 +82,6 @@ arc: configure distclean
 	cd ..; tar cvfz $(TGZFILE) $(TARDIR)
 	cd ../;$(SIG) $(TGZFILE) > $(SIGFILE)
 	rm -rf ../$(TARDIR)
+push:
+	git commit -a
+	git push origin master

@@ -2,15 +2,15 @@
  *** You may use it under the terms of the GPL. You should have
  *** already received the file COPYING that shows you your rights.
  *** Please look at COPYING for further license-details.
- ***  
+ ***
  *** THERE IS ABSOLUTELY NO WARRANTY. SO YOU USE IT AT YOUR OWN RISK.
  *** IT WAS WRITTEN IN THE HOPE THAT IT WILL BE USEFULL. I AM NOT RESPONSIBLE
  *** FOR ANY DAMAGE YOU MAYBE GET DUE TO USING MY PROGRAMS.
  ***/
 
 
-#ifndef _USIPP_H_
-#define _USIPP_H_ 
+#ifndef _USI_BUILD_H_
+#define _USI_BUILD_H_
 
 #ifndef USI_VERSION
 #define USI_VERSION 195

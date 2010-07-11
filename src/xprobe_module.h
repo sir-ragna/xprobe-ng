@@ -26,8 +26,6 @@
 #include "target.h"
 #include "os_matrix.h"
 #include "usi++/usi++.h"
-#include "usi++/icmp.h"
-#include "usi++/tcp.h"
 //#include <string>
 
 using namespace std;
