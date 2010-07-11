@@ -37,16 +37,16 @@ extern Interface *ui;
 
 /* initialization function */
 
-int icmp_inforeq_mod_init(Xprobe_Module_Hdlr *pt, char *nm) {
+int icmp_inforeq_mod_init(Xprobe_Module_Hdlr *pt,const char *nm) {
 
     ICMP_Inforeq_Mod *module = new ICMP_Inforeq_Mod;
 
     module->set_name(nm);
     xprobe_mdebug(XPROBE_DEBUG_MODULES, "Initializing the ICMP Inforeq module\n");
     pt->register_module(module);
-    pt->add_keyword(module->get_id(),"icmp_info_reply");
-    pt->add_keyword(module->get_id(),"icmp_info_reply_ttl");
-	pt->add_keyword(module->get_id(), "icmp_info_reply_ip_id");
+    pt->add_keyword(module->get_id(),(string&)"icmp_info_reply");
+    pt->add_keyword(module->get_id(),(string&)"icmp_info_reply_ttl");
+	pt->add_keyword(module->get_id(),(string&)"icmp_info_reply_ip_id");
 
 return OK;
 }
@@ -64,7 +64,7 @@ ICMP_Inforeq_Mod::ICMP_Inforeq_Mod(void):Xprobe_Module(XPROBE_MODULE_OSTEST, "fi
 
 ICMP_Inforeq_Mod::~ICMP_Inforeq_Mod(void) {
 
-	// free allocated classes 
+	// free allocated classes
 	for (s_i=kwd_chk.begin(); s_i != kwd_chk.end(); s_i++)
 		delete s_i->second;
 }
@@ -78,13 +78,13 @@ int ICMP_Inforeq_Mod::init(void) {
 
 
 int ICMP_Inforeq_Mod::exec(Target *tg, OS_Matrix *os) {
-    
+
     xprobe_debug(XPROBE_DEBUG_MODULES, "--%s module has been executed against: %s\n", get_name(),
             inet_ntoa(tg->get_addr()));
 
     current_os = os;
     do_icmp_query(tg);
-    
+
     return OK;
 }
 
@@ -129,21 +129,21 @@ int ICMP_Inforeq_Mod::do_icmp_query(Target *tg) {
     icmpp.set_type(ICMP_INFO_REQUEST);
     fflush(stderr);
     ret = -1;
-    
+
     icmpp.timeout(tv);
     sn.timeout(tv);
-    ret = icmpp.sendpack("");
+    ret = icmpp.sendpack((const char *)"");
     done = 0;
     while (!done) {
         ret = sn.sniffpack(buf, sizeof(buf));
         /* packet response */
-//        if (ret > 0 && sn.get_src() != local.s_addr 
-        if (!sn.timeout() && sn.get_src() == remote.s_addr 
+//        if (ret > 0 && sn.get_src() != local.s_addr
+        if (!sn.timeout() && sn.get_src() == remote.s_addr
             && sn.get_type() == ICMP_INFO_REPLY && sn.get_icmpId() == icmpp_id) {
 			done = 1;
 			xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] Received reply.\n", get_name());
 		}
-//        if (ret < 1) done = 1; /* timeout */    
+//        if (ret < 1) done = 1; /* timeout */
 		if (sn.timeout()) {
 			done = 1;
 			xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] Timed out, no reply received.\n", get_name());
@@ -163,7 +163,7 @@ void ICMP_Inforeq_Mod::generate_signature(Target *tg, ICMP *pack, ICMP *orig) {
 	unsigned int ttl;
 /*
 #       icmp_info_reply = [ y, n]
-#       icmp_info_reply_ttl = [>< decimal num] 
+#       icmp_info_reply_ttl = [>< decimal num]
 #       icmp_info_reply_ip_id = [0, !0, SENT]
 */
 	if (!pack->timeout()) {

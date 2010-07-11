@@ -533,7 +533,7 @@ char Portscanner::get_ignore_state(int proto) {
 
 /* initialization function */
 
-int portscan_mod_init(Xprobe_Module_Hdlr *pt, char *nm) {
+int portscan_mod_init(Xprobe_Module_Hdlr *pt,const char *nm) {
 
     Portscanner *port_scan= new Portscanner;
 

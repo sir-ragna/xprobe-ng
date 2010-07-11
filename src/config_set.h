@@ -70,10 +70,10 @@ class Config_KeyVal: public Config_Line {
      public:
         Config_KeyVal(const string &l);
         const string get_key(void) { return key; }
-        const string get_val(void) { return val; }   
+        const string get_val(void) { return val; }
 };
-        
-class Config_File;        
+
+class Config_File;
 
 class Config_Section  {
     private:
@@ -100,8 +100,8 @@ class Config_Section  {
         const char *get_secname(void) { return sec_name.c_str(); }
         const string gets_secname(void) { return sec_name; }
 };
-           
-        
+
+
 class Config_Set;
 
 class Config_File {
@@ -113,7 +113,7 @@ class Config_File {
     public:
         Config_File(Config_Set *);
         FILE *get_fd(void) { return fd; }
-        int process(char *);
+        int process(const char *);
         int process_generic(Config_Section *);
         int process_fingerprint(Config_Section *);
         int open_cfg(void);
@@ -121,7 +121,7 @@ class Config_File {
         void inc_line(void) { line_num++; }
         int get_linenum(void) { return line_num; }
 };
-        
+
 
 class Config_Set {
     private:
@@ -136,7 +136,7 @@ class Config_Set {
         ~Config_Set(void);
         void set_timeout(int t) { timeout = t; }
         int  get_timeout(void) { return timeout; }
-        int read_config(char *);
+        int read_config(const char *);
 		bool show_route(void) { return showroute; }
 		void show_route(bool sr) { showroute = sr; }
 		map <int, char> *get_tcp_ports(void) { return tcp_ports; }

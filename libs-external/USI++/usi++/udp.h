@@ -84,10 +84,10 @@ public:
 
 	/*! Send an UDP-datagramm, containing 'paylen' bytes of data.
 	 */
-	virtual int sendpack(void*, size_t);
+	virtual int sendpack(const void*, size_t);
 
 	/*!*/
-	virtual int sendpack(char*);
+	virtual int sendpack(const char*);
 
 	/*! Capture packets that are not for our host.
 	 */

@@ -145,11 +145,11 @@ public:
 
 	/*! Send a packet.
          */
-	virtual int sendpack(void *payload, size_t paylen);
+	virtual int sendpack(const void *payload, size_t paylen);
 
 	/*! Send a string.
          */
-      	virtual int sendpack(char *pay_string);
+      	virtual int sendpack(const char *pay_string);
 
       	/*! Just sets filter to TCP and calls Datalink::initdevice()
          */

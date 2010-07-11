@@ -2,15 +2,14 @@
  *** You may use it under the terms of the GPL. You should have
  *** already received the file COPYING that shows you your rights.
  *** Please look at COPYING for further license-details.
- ***  
+ ***
  *** THERE IS ABSOLUTELY NO WARRANTY. SO YOU USE IT AT YOUR OWN RISK.
  *** IT WAS WRITTEN IN THE HOPE THAT IT WILL BE USEFULL. I AM NOT RESPONSIBLE
  *** FOR ANY DAMAGE YOU MAYBE GET DUE TO USING MY PROGRAMS.
  ***/
- 
 
-#include "usi++/usi-structs.h"
-#include "usi++/udp.h"
+
+#include "usi++/usi++.h"
 
 #include <string>
 #include <errno.h>
@@ -23,7 +22,7 @@ UDP::UDP(const char *host)
 #endif
       : IP(host, IPPROTO_UDP)
 {
-   	memset(&d_udph, 0, sizeof(d_udph));        
+   	memset(&d_udph, 0, sizeof(d_udph));
         memset(&d_pseudo, 0, sizeof(d_pseudo));
 }
 
@@ -121,14 +120,14 @@ udphdr UDP::get_udphdr()
 
 /* Send an UDP-datagramm, containing 'paylen' bytes of data.
  */
-int UDP::sendpack(void *buf, size_t paylen)
+int UDP::sendpack(const void *buf, size_t paylen)
 {
 	size_t len = paylen + sizeof(d_udph) + sizeof(d_pseudo);
 	char *tmp = new char[len+1];	// for padding, if needed
 	memset(tmp, 0, len+1);
 
    	// build a pseudoheader for IP-checksum, as
-        // required per RFC ???	
+        // required per RFC ???
 	d_pseudo.saddr = get_src();	// sourceaddress
 	d_pseudo.daddr = get_dst();	// destinationaddress
 	d_pseudo.zero = 0;
@@ -158,20 +157,20 @@ int UDP::sendpack(void *buf, size_t paylen)
 }
 
 
-int UDP::sendpack(char *s)
+int UDP::sendpack(const char *s)
 {
 	return sendpack(s, strlen(s));
 }
 
-        
+
 /* Capture packets that are not for our host.
- */ 
+ */
 int UDP::sniffpack(void *buf, size_t len)
-{  	
+{
         char *tmp = new char[len+sizeof(d_udph)];
 	int r = 0;
         memset(tmp, 0, len + sizeof(d_udph));
-        
+
         r = IP::sniffpack(tmp, len + sizeof(d_udph));
 	if (r == 0 && Layer2::timeout()) {	// timeout
 		delete[] tmp;
@@ -183,7 +182,7 @@ int UDP::sniffpack(void *buf, size_t len)
 
 	if (buf)
     		memcpy(buf, tmp + sizeof(d_udph), len);
-        
+
         delete [] tmp;
         return r-sizeof(d_udph);
 }
@@ -196,10 +195,10 @@ int UDP::sniffpack(void *buf, size_t len)
 int UDP::init_device(char *dev, int promisc, size_t snaplen)
 {
         int r = Layer2::init_device(dev, promisc, snaplen);
-	
+
 	if (r < 0)
 		die("UDP::init_device", STDERR, 1);
-	r = Layer2::setfilter("udp");
+	r = Layer2::setfilter((char *)"udp");
 	if (r < 0)
 		die("UDP::init_device::setfilter", STDERR, 1);
         return r;

@@ -12,7 +12,7 @@
 extern Interface *ui;
 
 int icmp_port_unreach::init (void) {
-	
+
 	xprobe_debug(XPROBE_DEBUG_MODULES, "[%s]: Initialized\n", get_name());
 return OK;
 
@@ -35,36 +35,36 @@ int icmp_port_unreach::exec (Target *Tgt, OS_Matrix *osmtx) {
 				continue;
 			}
 			/* match TTLs in a fuzzy way */
-			if (icmp_unr->get_p_unreach_ttl() - TTL_DELTA < iter->second.get_p_unreach_ttl() && 
+			if (icmp_unr->get_p_unreach_ttl() - TTL_DELTA < iter->second.get_p_unreach_ttl() &&
 				icmp_unr->get_p_unreach_ttl() + TTL_DELTA > iter->second.get_p_unreach_ttl() ){
-				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);	
+				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);
 			}
 			if (icmp_unr->get_icmp_prec_bits() == iter->second.get_icmp_prec_bits()) {
-				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);	
+				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);
 			}
 			if (icmp_unr->get_icmp_df() == iter->second.get_icmp_df()) {
-				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);	
+				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);
 			}
 			if (icmp_unr->get_echoed_size() == iter->second.get_echoed_size()) {
-				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);	
+				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);
 			}
 			if (icmp_unr->get_echoed_udpsum() == iter->second.get_echoed_udpsum()) {
-				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);	
+				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);
 			}
 			if (icmp_unr->get_echoed_ipsum() == iter->second.get_echoed_ipsum()) {
-				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);	
+				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);
 			}
 			if (icmp_unr->get_echoed_ipid() == iter->second.get_echoed_ipid()) {
-				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);	
+				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);
 			}
 			if (icmp_unr->get_echoed_totlen() == iter->second.get_echoed_totlen()) {
-				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);	
+				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);
 			}
 			if (icmp_unr->get_echoed_3bit() == iter->second.get_echoed_3bit()) {
-				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);	
-			}	
+				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);
+			}
 			if(icmp_unr->get_icmp_ipid() == iter->second.get_icmp_ipid()) {
-				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);	
+				osmtx->add_result (get_id(), iter->first, XPROBE_MATCH_YES);
 			}
 		}
 	}
@@ -81,16 +81,17 @@ return OK;
 }
 
 
-int icmp_port_unreach_init(Xprobe_Module_Hdlr *pt, char *nm) {
+int icmp_port_unreach_init(Xprobe_Module_Hdlr *pt,const char *nm) {
 
 	icmp_port_unreach *port_unreach= new icmp_port_unreach;
 	int i;
-	extern char *keyarr[];
+	extern  string keyarr[];
 	port_unreach->set_name(nm);
 	xprobe_mdebug(XPROBE_DEBUG_MODULES, "Initializing the ICMP port unreach module\n");
 	/* register module and keywords */
 	pt->register_module(port_unreach);
-	for (i = 0; keyarr[i] != NULL; i++) 
+    // TODO: should use iterators here
+	for (i = 0; keyarr[i] !=""; i++)
 		pt->add_keyword (port_unreach->get_id(), keyarr[i]);
 	return(OK);
 }
@@ -214,7 +215,7 @@ sniff_again:
 	/* check if we have enuff for ip header */
 	if (sniffedbytes >= sizeof (struct ip)) {
 		iph = (struct ip *) echoedpack;
-		xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ECHOED Header len: %d\n", 
+		xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ECHOED Header len: %d\n",
 						get_name(), iph->ip_hl<<2);
 		iphlen = iph->ip_hl<<2;
 
@@ -241,14 +242,14 @@ sniff_again:
 		xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ICMP TTL is: %d\n", get_name(), fingerptr->get_p_unreach_ttl());
 		/*** ip id ***/
 		keyword = "icmp_unreach_echoed_ip_id";
-		xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ECHOED IP ID: 0x%x Orig IP ID: 0x%x (flipp: 0x%x)\n", 
+		xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ECHOED IP ID: 0x%x Orig IP ID: 0x%x (flipp: 0x%x)\n",
 					get_name(), ntohs(iph->ip_id), udp.get_id(), flipp(udp.get_id()) );
 		if (ntohs(iph->ip_id) == udp.get_id()) {
 			xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ECHOED IP ID OK\n", get_name());
 			value = "OK";
 			fingerptr->put_echoed_ipid(value.c_str());
 		} else  if (ntohs(iph->ip_id) == flipp(udp.get_id())) {
-			xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ECHOED IP ID FLIPPED\n", get_name()); 
+			xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ECHOED IP ID FLIPPED\n", get_name());
 			value = "FLIPPED";
 			fingerptr->put_echoed_ipid(value.c_str());
 			udp.set_id(ntohs(iph->ip_id));
@@ -261,13 +262,13 @@ sniff_again:
 		if (gensig) Tgt->signature(keyword, value);
 		/*** ip len ***/
 		keyword = "icmp_unreach_echoed_total_len";
-		xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ECHOED IP LEN: %d Orig IP LEN: %d\n", 
+		xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ECHOED IP LEN: %d Orig IP LEN: %d\n",
 					get_name(), ntohs(iph->ip_len), udp.get_totlen());
 		if (ntohs (iph->ip_len) == udp.get_totlen()) {
 			xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ECHOED IP Len OK\n", get_name());
 			value ="OK";
 			fingerptr->put_echoed_totlen(value.c_str());
-		} else 
+		} else
 		if (ntohs (iph->ip_len) == udp.get_totlen() - 20) {
 			xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ECHOED IP totlen < 20\n", get_name());
 			fingerptr->put_echoed_totlen("<");
@@ -285,11 +286,11 @@ sniff_again:
 			value = "unexpected";
         }
 		if (gensig) Tgt->signature(keyword, value);
-		
+
 		/*** 3bit flags ***/
 		keyword="icmp_unreach_echoed_3bit_flags";
 		xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ECHOED IP_OFF: 0x%x  Orig: 0x%x (flipp: 0x%x)\n",
-						get_name(), ntohs(iph->ip_off), udp.get_fragoff(), flipp(udp.get_fragoff()) ); 
+						get_name(), ntohs(iph->ip_off), udp.get_fragoff(), flipp(udp.get_fragoff()) );
 		if (ntohs (iph->ip_off) == udp.get_fragoff()) {
 			xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ECHOED Frag Off Ok\n", get_name());
 			value = "OK";
@@ -334,9 +335,9 @@ sniff_again:
 	}
 	/* check if we have enuff for udp header */
 	if (sniffedbytes >= (sizeof (struct ip) + sizeof (struct udphdr))) {
-        
+
 		udph = (struct udphdr *) (echoedpack+iphlen);
-		xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ECHOED UDP checksum: 0x%x Original UDP checksum: 0x%x\n", 
+		xprobe_debug(XPROBE_DEBUG_MODULES, "[%s] ECHOED UDP checksum: 0x%x Original UDP checksum: 0x%x\n",
 			 get_name(), ntohs(udph->check),ntohs(udp.get_udpsum()));
 		/*** udp checksum ***/
 		keyword="icmp_unreach_echoed_udp_cksum";
@@ -370,7 +371,7 @@ sniff_again:
 		fingerptr->put_echoed_size (echoed_dtsize);
 		value = "8";
 	} else {
-		value = "unexpected";	
+		value = "unexpected";
 	}
 	*/
 	if (echoed_dtsize > 64) {
@@ -380,7 +381,7 @@ sniff_again:
 	}
 	fingerptr->put_echoed_size(value.c_str());
 	if (gensig) Tgt->signature(keyword, value);
-	
+
 free(payload);
 return 1;
 }

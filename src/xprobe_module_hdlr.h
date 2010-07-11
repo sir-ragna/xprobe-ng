@@ -46,18 +46,18 @@ class Xprobe_Module_Hdlr {
         int print(void);
         int exec(int, Target *, OS_Matrix *);
         int fini(void);
-        
+
 		void display_mod_names(void);
         int register_module(Xprobe_Module *);
-        int add(int(*)(Xprobe_Module_Hdlr *, char *), char *);
-        void add_keyword(int, char *);
+        int add(int(*)(Xprobe_Module_Hdlr *, const char *),const char *);
+        void add_keyword(int,string &kwd);
 		int get_module_count();
-		int modbyname(char *nm);	
+		int modbyname(char *nm);
 		bool mod_disabled_by_default(unsigned int ix) {
 			unsigned int disabled_mods[] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0};
 			if (ix < sizeof(disabled_mods))
 				return (disabled_mods[ix] == 1);
-			else 
+			else
 				return false;
 		}
         Xprobe_Module *find_mod(string &);

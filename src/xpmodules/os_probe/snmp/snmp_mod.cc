@@ -35,12 +35,12 @@ extern Interface *ui;
 extern Cmd_Opts *copts;
 extern Config_Set *cfg;
 
-int snmp_mod_init(Xprobe_Module_Hdlr *pt, char *nm) {
+int snmp_mod_init(Xprobe_Module_Hdlr *pt, const char *nm) {
 	SNMP_Mod *snmp= new SNMP_Mod;
 	snmp->set_name(nm);
 	xprobe_mdebug(XPROBE_DEBUG_MODULES, "Initializing the SNMP module\n");
 	pt->register_module(snmp);
-	pt->add_keyword(snmp->get_id(), "snmp_sysdescr");
+	pt->add_keyword(snmp->get_id(),(string&)"snmp_sysdescr");
 	return OK;
 }
 
@@ -188,9 +188,9 @@ int SNMP_Mod::exec(Target *tg, OS_Matrix *os) {
 				os->add_result(get_id(), iter->first, XPROBE_MATCH_YES);
 			}
 		}
-		
+
 		break;
-	}	
+	}
 	close(sock);
 	return OK;
 }

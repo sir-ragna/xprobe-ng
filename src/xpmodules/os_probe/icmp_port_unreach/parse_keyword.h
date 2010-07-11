@@ -1,6 +1,6 @@
 #ifndef PARSE_KEYWORD_H
 #define PARSE_KEYWORD_H
-char *keyarr[] = {
+string keyarr[] = {
 "icmp_unreach_reply_ttl",
 "icmp_unreach_echoed_dtsize",
 "icmp_unreach_echoed_udp_cksum",
@@ -12,7 +12,7 @@ char *keyarr[] = {
 "icmp_unreach_df_bit",
 "icmp_unreach_ip_id",
 "icmp_unreach_reply",
-NULL};
+""};
 
 #define ICMP_UNREACH_TTL 0
 #define ICMP_UNREACH_ECHOED_SIZE 1

@@ -46,11 +46,11 @@ public:
 	/*! send an ICMP-packet containing 'payload' which
 	 *  is 'paylen' bytes long
 	 */
-        virtual int sendpack(void*, size_t);
+        virtual int sendpack(const void*, size_t);
 
         /*! send a ICMP-packet with string 'payload' as payload.
 	 */
-        virtual int sendpack(char*);
+        virtual int sendpack(const char*);
 
 
 		/*! send standard UNIX-like payload

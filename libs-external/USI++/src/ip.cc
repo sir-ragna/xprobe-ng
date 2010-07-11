@@ -8,10 +8,7 @@
  *** FOR ANY DAMAGE YOU MAYBE GET DUE TO USING MY PROGRAMS.
  ***/
 
-#include "usi++/usi-structs.h"
-#include "usi++/datalink.h"
-#include "usi++/ip.h"
-
+#include "usi++/usi++.h"
 #include "config.h"
 #include <string>
 #include <errno.h>
@@ -493,7 +490,7 @@ int IP::init_device(char *dev, int promisc, size_t snaplen)
 
 	if (r < 0)
 		die("IP::init_device", STDERR, 1);
-	r = Layer2::setfilter("ip");
+	r = Layer2::setfilter((char*)"ip");
 
 	if (r < 0)
 		die("IP::init_device::setfilter", STDERR, 1);

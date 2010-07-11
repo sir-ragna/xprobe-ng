@@ -39,7 +39,7 @@ extern Cmd_Opts *copts;
 
 /* initialization function */
 
-int icmp_ping_mod_init(Xprobe_Module_Hdlr *pt, char *nm) {
+int icmp_ping_mod_init(Xprobe_Module_Hdlr *pt,const char *nm) {
 
     ICMP_Ping_Mod *module = new ICMP_Ping_Mod;
 

@@ -87,7 +87,7 @@ int TCP_Ping_Mod::exec(Target *tg, OS_Matrix *os) {
 
     t1 = Xprobe::Timeval::gettimeofday();
 
-   	tcpp->sendpack("");
+   	tcpp->sendpack((const char *)"");
 
     done = 0;
 	while(!done) {
@@ -134,7 +134,7 @@ int TCP_Ping_Mod::parse_keyword(int os_id, const char *kwd, const char *val)  {
 
 /* initialization function */
 
-int tcp_ping_mod_init(Xprobe_Module_Hdlr *pt, char *nm) {
+int tcp_ping_mod_init(Xprobe_Module_Hdlr *pt,const char *nm) {
 
     TCP_Ping_Mod *module = new TCP_Ping_Mod;
 

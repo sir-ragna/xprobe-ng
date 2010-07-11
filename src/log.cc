@@ -9,7 +9,7 @@ int Log::write(const char *fmt, ...) {
 	va_list va;
 
 	va_start(va, fmt);
-	if (logopened) 
+	if (logopened)
 		return vfprintf(ofile, fmt, va);
 	else
 		return 0;
@@ -202,7 +202,7 @@ int XML_Log::log_guess(int type, const char *fmt, va_list varg) {
 	int prob=-1;
 	char *os=NULL;
 	const char *tp = type == XPROBELOG_MSG_PRIMARY ? "primary" : "secondary";
-	
+
 	while(*fmt)
 		switch(*fmt++) {
 			case 'p':
@@ -222,9 +222,10 @@ int XML_Log::log_guess(int type, const char *fmt, va_list varg) {
 /*  n-number, p-proto, t-state, s-service */
 int XML_Log::log_port(const char *fmt, va_list varg) {
 	int portnum=-1, proto=-1, st=-1;
-	char *state=NULL, *service=NULL;
+	const char *state=NULL;
+    char *service=NULL;
 
-	while (*fmt) 
+	while (*fmt)
 		switch(*fmt++) {
 			case 'n':
 				portnum = va_arg(varg, int);
@@ -242,16 +243,16 @@ int XML_Log::log_port(const char *fmt, va_list varg) {
 	if (service && portnum > -1 && proto > -1 && st > -1) {
 		switch(st) {
 			case XPROBE_TARGETP_CLOSED:
-				state="closed";
+				state=(const char *)"closed";
 				break;
 			case XPROBE_TARGETP_OPEN:
-				state="open";
+				state=(const char *)"open";
 				break;
 			case XPROBE_TARGETP_FILTERED:
-				state="filtered";
+				state=(const char *)"filtered";
 				break;
 			default:
-				state="unknown";
+				state=(const char *)"unknown";
 		}
 		write("<port number=\"%d\" proto=\"%s\" state=\"%s\" service=\"%s\" />\n", portnum, proto==IPPROTO_TCP ? "tcp" : "udp", state, service);
 		return OK;
@@ -264,7 +265,7 @@ int XML_Log::log_port(const char *fmt, va_list varg) {
 int XML_Log::log_port_stats(char proto, const char *fmt, va_list varg) {
 	int opn=-1, closed=-1, filtered=-1;
 
-	while(*fmt) 
+	while(*fmt)
 		switch(*fmt++) {
 			case 'o':
 				opn = va_arg(varg, int);
@@ -316,7 +317,7 @@ int XML_Log::log_rtt(const char *fmt, va_list varg) {
 	if (real > -1 && selected > -1) {
 		write("<rtt real=\"P%.5fS\" selected=\"P%.5fS\"/>\n", real, selected);
 		return OK;
-	} else 
+	} else
 		return FAIL;
 }
 /* s-state,p-probability */
@@ -343,7 +344,7 @@ int XML_Log::log_state(const char *fmt, va_list varg) {
 /* a-address */
 int XML_Log::log_target(const char *fmt, va_list varg) {
 	char *addr=NULL;
-	
+
 	while (*fmt)
 		switch(*fmt++) {
 			case 'a':
@@ -363,7 +364,7 @@ int XML_Log::log_module(const char *fmt, va_list varg) {
 	int modnum=-1, type=-1;
 	const char *tp=NULL;
 
-	while (*fmt) 
+	while (*fmt)
 		switch(*fmt++) {
 			case 't':
 				type = va_arg(varg, int);
@@ -405,7 +406,7 @@ int XML_Log::log_run(const char *fmt, va_list varg) {
    	time_t date=0;
 	int argc=-1, k, hr, min;
 	struct tm *tms=NULL;
-	
+
 	while(*fmt)
 		switch(*fmt++) {
 			case 'c':

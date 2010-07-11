@@ -30,14 +30,14 @@ extern Interface *ui;
 extern Cmd_Opts *copts;
 extern XML_Log *xml;
 
-int Xprobe_Module_Hdlr::load(void) {    
+int Xprobe_Module_Hdlr::load(void) {
 	int cnt=1;
     xprobe_module_func_t *ptr;
 
     ui->msg("[+] Loading modules.\n");
 
     ptr = mod_init_funcs;
-    while (ptr !=NULL && ptr->name !=NULL && ptr->func !=NULL) { 
+    while (ptr !=NULL && ptr->name !=NULL && ptr->func !=NULL) {
 		if (!copts->mod_is_disabled(cnt++))
 			add(ptr->func, ptr->name);
 		ptr++;
@@ -46,36 +46,36 @@ int Xprobe_Module_Hdlr::load(void) {
 
 }
 
-int Xprobe_Module_Hdlr::init(void) { 
+int Xprobe_Module_Hdlr::init(void) {
     map<int, Xprobe_Module *>::iterator m_i;
 
-    for (m_i = modlist.begin(); m_i != modlist.end(); m_i++) 
+    for (m_i = modlist.begin(); m_i != modlist.end(); m_i++)
         (*m_i).second->init();
     return 1;
 }
 
-int Xprobe_Module_Hdlr::print(void) { 
+int Xprobe_Module_Hdlr::print(void) {
     map<int, Xprobe_Module *>::iterator m_i;
 
     ui->msg("[+] Following modules are loaded:\n");
 	xml->log(XPROBELOG_MOD_SESS_START, "Loaded modules");
     for (m_i = modlist.begin(); m_i != modlist.end(); m_i++) {
-        ui->msg("[x] [%d] %s  -  %s\n", (*m_i).first, 
+        ui->msg("[x] [%d] %s  -  %s\n", (*m_i).first,
 			(*m_i).second->get_name(), (*m_i).second->get_desc());
-		xml->log(XPROBELOG_MSG_MODULE, "%t%n%d%s", m_i->second->get_type(), 
+		xml->log(XPROBELOG_MSG_MODULE, "%t%n%d%s", m_i->second->get_type(),
 				m_i->second->get_name(), m_i->first, m_i->second->get_desc());
 	}
-   ui->msg("[+] %i modules registered\n", mod_counter);     
+   ui->msg("[+] %i modules registered\n", mod_counter);
 	xml->log(XPROBELOG_MOD_SESS_END, "End modules");
-   return 1;     
+   return 1;
 }
 
-int Xprobe_Module_Hdlr::exec(int mod_type, Target *tg, OS_Matrix *os) { 
+int Xprobe_Module_Hdlr::exec(int mod_type, Target *tg, OS_Matrix *os) {
     map<int, Xprobe_Module *>::iterator m_i;
 
     for (m_i = modlist.begin(); m_i != modlist.end(); m_i++)  {
         if ((*m_i).second->get_type() == mod_type) {
-            xprobe_debug(XPROBE_DEBUG_MODULES, 
+            xprobe_debug(XPROBE_DEBUG_MODULES,
                         "[+] Executing module: %s\n", (*m_i).second->get_name());
                          (*m_i).second->exec(tg, os);
         }
@@ -83,7 +83,7 @@ int Xprobe_Module_Hdlr::exec(int mod_type, Target *tg, OS_Matrix *os) {
     return 1;
 }
 
-int Xprobe_Module_Hdlr::fini(void) { 
+int Xprobe_Module_Hdlr::fini(void) {
     map<int, Xprobe_Module *>::iterator m_i;
 
     //xprobe_debug(XPROBE_DEBUG_MODULES, "[+] Deinitializing modules\n");
@@ -93,31 +93,30 @@ int Xprobe_Module_Hdlr::fini(void) {
         (*m_i).second->fini();
     }
 
-    for (m_i = modlist.begin(); m_i != modlist.end(); m_i++) 
+    for (m_i = modlist.begin(); m_i != modlist.end(); m_i++)
         delete (*m_i).second;
-        
+
     ui->msg("[+] Modules deinitialized\n");
     return 1;
 }
 
 
-int Xprobe_Module_Hdlr::add(int (*init_func)(Xprobe_Module_Hdlr *, char *), char *nm) {
+int Xprobe_Module_Hdlr::add(int (*init_func)(Xprobe_Module_Hdlr *,const char *),const char *nm) {
 
     xprobe_debug(XPROBE_DEBUG_MODULES, "[+] adding %s via function: %p\n", nm, init_func);
     return(init_func(this, nm));
 }
-    
+
 int Xprobe_Module_Hdlr::register_module(Xprobe_Module *mod) {
 
     mod_counter++;
     mod->set_id(mod_counter);
     modlist.insert(pair<int, Xprobe_Module *>(mod_counter, mod));
-    
+
     return 1;
 }
 
-void Xprobe_Module_Hdlr::add_keyword(int id, char *str) {
-    string kwd(str);
+void Xprobe_Module_Hdlr::add_keyword(int id,string &kwd) {
 
     kwdlist.insert(pair<string, int>(kwd, id));
    	keywords++;
@@ -129,7 +128,7 @@ void Xprobe_Module_Hdlr::add_keyword(int id, char *str) {
 Xprobe_Module *Xprobe_Module_Hdlr::find_mod(string &kwd) {
     map <string, int>::iterator kw_i;
     map<int, Xprobe_Module *>::iterator mod_i;
-    
+
     kw_i = kwdlist.find(kwd);
 
     if (kw_i == kwdlist.end()) {
@@ -146,11 +145,11 @@ Xprobe_Module *Xprobe_Module_Hdlr::find_mod(string &kwd) {
     return (*mod_i).second;
 }
 
-int Xprobe_Module_Hdlr::loaded_mods_num(int mod_type) { 
+int Xprobe_Module_Hdlr::loaded_mods_num(int mod_type) {
     map<int, Xprobe_Module *>::iterator m_i;
     int num = 0;
 
-    for (m_i = modlist.begin(); m_i != modlist.end(); m_i++) 
+    for (m_i = modlist.begin(); m_i != modlist.end(); m_i++)
         if ((*m_i).second->get_type() == mod_type) num++;
 
     /* sometimes os_test module handles multiple keywords */

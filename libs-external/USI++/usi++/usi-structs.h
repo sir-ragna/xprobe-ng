@@ -539,5 +539,5 @@ struct icmp6_hdr
 
 } // namespace usipp
 
-#include "usi++/usi++.h"
+//#include "usi++/usi++.h"
 #endif	// _USI_STRUCTS_H_

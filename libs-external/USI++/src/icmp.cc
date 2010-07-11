@@ -9,10 +9,7 @@
  *** FOR ANY DAMAGE YOU MAYBE GET DUE TO USING MY PROGRAMS.
  ***/
 
-#include "usi++/usi-structs.h"
-#include "usi++/datalink.h"
-#include "usi++/icmp.h"
-#include "usi++/ip.h"
+#include "usi++/usi++.h"
 
 #include <string>
 #include <errno.h>
@@ -145,7 +142,7 @@ u_int16_t ICMP::get_seq()
 /* send an ICMP-packet containing 'payload' which
  *  is 'paylen' bytes long
  */
-int ICMP::sendpack(void *payload, size_t paylen)
+int ICMP::sendpack(const void *payload, size_t paylen)
 {
    	size_t len = sizeof(struct icmphdr) + paylen;	// the packetlenght
 
@@ -176,7 +173,7 @@ int ICMP::sendpack(void *payload, size_t paylen)
 
 /* send a ICMP-packet with string 'payload' as payload.
  */
-int ICMP::sendpack(char *payload)
+int ICMP::sendpack(const char *payload)
 {
    	return sendpack(payload, strlen(payload));
 }
@@ -226,7 +223,7 @@ int ICMP::init_device(char *dev, int promisc, size_t snaplen)
         int r = Layer2::init_device(dev, promisc, snaplen);
 	if (r < 0)
 		die("ICMP::init_device", STDERR, 1);
-	r = Layer2::setfilter("icmp");
+	r = Layer2::setfilter((char *)"icmp");
 	if (r < 0)
 		die("ICMP::init_device", STDERR, 1);
         return r;

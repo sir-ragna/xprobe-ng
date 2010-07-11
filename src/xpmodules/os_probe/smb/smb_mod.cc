@@ -33,13 +33,13 @@
 extern Interface *ui;
 extern Cmd_Opts *copts;
 
-int smb_mod_init(Xprobe_Module_Hdlr *pt, char *nm) {
+int smb_mod_init(Xprobe_Module_Hdlr *pt, const char *nm) {
 	SMB_Mod *smb= new SMB_Mod;
 	smb->set_name(nm);
 	xprobe_mdebug(XPROBE_DEBUG_MODULES, "Initializing the SMB module\n");
 	pt->register_module(smb);
-	pt->add_keyword(smb->get_id(), "smb_nativeos");
-	pt->add_keyword(smb->get_id(), "smb_lanman");
+	pt->add_keyword(smb->get_id(),(string&)"smb_nativeos");
+	pt->add_keyword(smb->get_id(),(string&)"smb_lanman");
 	return OK;
 }
 

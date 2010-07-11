@@ -10,8 +10,7 @@
  ***/
 
 
-#include "usi++/usi-structs.h"
-#include "usi++/tcp.h"
+#include "usi++/usi++.h"
 
 #include <string>
 #include <stdlib.h>
@@ -215,7 +214,7 @@ int TCP::set_tcphdr(struct tcphdr _tcph) {
 
 /*  Send a TCP-packet
  */
-int TCP::sendpack(void *buf, size_t paylen)
+int TCP::sendpack(const void *buf, size_t paylen)
 {
 	unsigned int len = paylen + (tcph.th_off<<2) + sizeof(pseudo);
 	char *tmp = new char[len+1+20];	// +1 for padding if necessary
@@ -253,7 +252,7 @@ int TCP::sendpack(void *buf, size_t paylen)
 }
 
 
-int TCP::sendpack(char *s)
+int TCP::sendpack(const char *s)
 {
 	return sendpack(s, strlen(s));
 }
@@ -305,7 +304,7 @@ int TCP::init_device(char *dev, int promisc, size_t snaplen)
 	int r = Layer2::init_device(dev, promisc, snaplen);
 	if (r < 0)
 		die("TCP::init_device", STDERR, 1);
-	r = Layer2::setfilter("tcp");
+	r = Layer2::setfilter((char *)"tcp");
 	if (r < 0)
 		die("TCP::init_device::setfilter", STDERR, 1);
         return r;

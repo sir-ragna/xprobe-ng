@@ -29,6 +29,9 @@
 #include "usi++/TX.h"
 #include "usi++/TX_IP.h"
 #include "usi++/RX.h"
+#include "usi++/ip6.h"
+#include "usi++/TX_IP6.h"
+#include "usi++/icmp6.h"
 #include <string>
 
 using namespace std;

@@ -1,4 +1,4 @@
-#include "usi++/usi-structs.h"
+#include "usi++/usi++.h"
 #include <string>
 #include <unistd.h>
 #include <sys/ioctl.h>

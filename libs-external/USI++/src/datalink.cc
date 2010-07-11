@@ -9,8 +9,7 @@
  ***/
 
 #include "config.h"
-#include "usi++/usi-structs.h"
-#include "usi++/datalink.h"
+#include "usi++/usi++.h"
 
 #include <string.h>
 #include <unistd.h>

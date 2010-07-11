@@ -40,8 +40,8 @@ class Cmd_Opts {
         bool modules_disable_used, modules_enable_used;
         char flags;
         char *logfile;
-        char *config_file;
-        char *default_config_file;
+        const char *config_file;
+        const char *default_config_file;
         unsigned long debuglevel;
         char *target;
 		bool showroute, portscan, rtt_forced, sgen, xml, brute_force_tcp_ports, analyze_samples;
@@ -60,7 +60,7 @@ class Cmd_Opts {
         Xprobe::Timeval& get_timeout(void);
         Xprobe::Timeval& get_send_delay(void);
         char *get_target(void);
-        char *get_configfile(void);
+        const char *get_configfile(void);
 		char *get_logfile(void);
         int parse(int argc, char *argv[]);
         void usage(char *);

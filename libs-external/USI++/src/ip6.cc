@@ -2,18 +2,13 @@
  *** You may use it under the terms of the GPL. You should have
  *** already received the file COPYING that shows you your rights.
  *** Please look at COPYING for further license-details.
- ***  
+ ***
  *** THERE IS ABSOLUTELY NO WARRANTY. SO YOU USE IT AT YOUR OWN RISK.
  *** IT WAS WRITTEN IN THE HOPE THAT IT WILL BE USEFULL. I AM NOT RESPONSIBLE
  *** FOR ANY DAMAGE YOU MAYBE GET DUE TO USING MY PROGRAMS.
  ***/
- 
-#include "usi++/usi-structs.h"
-#include "usi++/datalink.h"
-#include "usi++/Layer2.h"
-#include "usi++/ip6.h"
-#include "usi++/TX_IP6.h"
 
+#include "usi++/usi++.h"
 #include "config.h"
 #include <string>
 #include <errno.h>
@@ -144,7 +139,7 @@ int IP6::sendpack(void *payload, size_t paylen)
 {
 	size_t len = sizeof(iph) + paylen;
 	char *s = new char[len];
-	
+
 	iph.payload_len = htons(paylen);
 
 	memcpy(s, &iph, sizeof(iph));
