@@ -2,15 +2,14 @@
  *** You may use it under the terms of the GPL. You should have
  *** already received the file COPYING that shows you your rights.
  *** Please look at COPYING for further license-details.
- ***  
+ ***
  *** THERE IS ABSOLUTELY NO WARRANTY. SO YOU USE IT AT YOUR OWN RISK.
  *** IT WAS WRITTEN IN THE HOPE THAT IT WILL BE USEFULL. I AM NOT RESPONSIBLE
  *** FOR ANY DAMAGE YOU MAYBE GET DUE TO USING MY PROGRAMS.
  ***/
-#ifndef _DATALINK_H_ 
+#ifndef _DATALINK_H_
 #define _DATALINK_H_
 
-#include "usi-structs.h"
 #include "RX.h"
 #include <stdio.h>
 
@@ -20,11 +19,11 @@ namespace usipp {
 
 /*! \class Pcap
  *  Describing a Datalink.
- */ 
+ */
 class Pcap : public RX {
 private:
 	struct timeval d_tv;
-   	
+
 	// Heavily used by libpcap
 	int d_datalink;
 	size_t d_framelen, d_snaplen;
@@ -34,8 +33,8 @@ private:
 
 	// netaddress and netmask
         bpf_u_int32 d_localnet, d_netmask;
-       
-	// The actual filter-program 
+
+	// The actual filter-program
 	struct bpf_program d_filter;
 
 	// The pcap-header for every packet fetched
@@ -46,7 +45,7 @@ private:
 	int d_has_promisc;
 
 	// true when timed out
-	bool d_timeout;	
+	bool d_timeout;
 
 protected:
 	struct ether_header d_ether;
@@ -60,17 +59,17 @@ public:
 	 *  cannot set a filter!
 	 */
 	Pcap(char *);
-	
+
 	Pcap();
-	
+
 	/*! Copy-constructor
 	 */
 	Pcap(const Pcap &);
-	
+
         virtual ~Pcap();
 
 	Pcap &operator=(const Pcap &);
-	
+
 
         /*! Fill buffer with src-hardware-adress of actuall packet,
 	 *  use 'datalink' to determine what HW the device is.
@@ -97,7 +96,7 @@ public:
 	 *  (framelen depends on datalink)
 	 */
         int get_framelen();
-    
+
         /*! Initialize a device ("eth0" for example) for packet-
 	 *  capturing. It MUST be called before sniffpack() is launched.
 	 *  Set 'promisc' to 1 if you want the device running in promiscous mode.
@@ -124,7 +123,7 @@ public:
 
 	/*! Returns true when recv() timed out */
 	bool timeout();
-	
+
 }; // class Datalink {}
 
 

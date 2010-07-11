@@ -21,7 +21,7 @@
 extern "C" {
 #include <pcap.h>
 }
-#include "usi-build.h"
+#include <string>
 
 #ifndef MAXHOSTLEN
 #define MAXHOSTLEN 1000
@@ -539,4 +539,5 @@ struct icmp6_hdr
 
 } // namespace usipp
 
+#include "usi++/usi++.h"
 #endif	// _USI_STRUCTS_H_

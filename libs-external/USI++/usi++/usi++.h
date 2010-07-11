@@ -16,6 +16,8 @@
 #define USI_VERSION 195
 #endif
 
+#include "config.h"
+#include "usi++/usi-structs.h"
 #include "usi++/config.h"
 #include "usi++/datalink.h"
 //#include "arp.h"
@@ -28,6 +30,8 @@
 #include "usi++/TX_IP.h"
 #include "usi++/RX.h"
 #include <string>
+
+using namespace std;
 
 namespace usipp {
 
