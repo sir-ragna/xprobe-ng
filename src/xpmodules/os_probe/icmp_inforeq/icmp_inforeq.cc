@@ -44,9 +44,9 @@ int icmp_inforeq_mod_init(Xprobe_Module_Hdlr *pt,const char *nm) {
     module->set_name(nm);
     xprobe_mdebug(XPROBE_DEBUG_MODULES, "Initializing the ICMP Inforeq module\n");
     pt->register_module(module);
-    pt->add_keyword(module->get_id(),(string&)"icmp_info_reply");
-    pt->add_keyword(module->get_id(),(string&)"icmp_info_reply_ttl");
-	pt->add_keyword(module->get_id(),(string&)"icmp_info_reply_ip_id");
+    pt->add_keyword(module->get_id(),"icmp_info_reply");
+    pt->add_keyword(module->get_id(),"icmp_info_reply_ttl");
+	pt->add_keyword(module->get_id(),"icmp_info_reply_ip_id");
 
 return OK;
 }

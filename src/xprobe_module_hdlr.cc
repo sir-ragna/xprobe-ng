@@ -116,7 +116,7 @@ int Xprobe_Module_Hdlr::register_module(Xprobe_Module *mod) {
     return 1;
 }
 
-void Xprobe_Module_Hdlr::add_keyword(int id,string &kwd) {
+void Xprobe_Module_Hdlr::add_keyword(int id,string kwd) {
 
     kwdlist.insert(pair<string, int>(kwd, id));
    	keywords++;

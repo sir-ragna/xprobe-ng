@@ -40,7 +40,7 @@ int snmp_mod_init(Xprobe_Module_Hdlr *pt, const char *nm) {
 	snmp->set_name(nm);
 	xprobe_mdebug(XPROBE_DEBUG_MODULES, "Initializing the SNMP module\n");
 	pt->register_module(snmp);
-	pt->add_keyword(snmp->get_id(),(string&)"snmp_sysdescr");
+	pt->add_keyword(snmp->get_id(),"snmp_sysdescr");
 	return OK;
 }
 

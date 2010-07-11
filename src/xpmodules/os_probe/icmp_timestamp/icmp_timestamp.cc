@@ -44,9 +44,9 @@ int icmp_timestamp_mod_init(Xprobe_Module_Hdlr *pt,const char *nm) {
     module->set_name(nm);
     xprobe_mdebug(XPROBE_DEBUG_MODULES, "Initializing the ICMP Timestamp module\n");
     pt->register_module(module);
-    pt->add_keyword(module->get_id(),(string&)"icmp_timestamp_reply");
-    pt->add_keyword(module->get_id(),(string&)"icmp_timestamp_reply_ttl");
-    pt->add_keyword(module->get_id(),(string&)"icmp_timestamp_reply_ip_id");
+    pt->add_keyword(module->get_id(),"icmp_timestamp_reply");
+    pt->add_keyword(module->get_id(),"icmp_timestamp_reply_ttl");
+    pt->add_keyword(module->get_id(),"icmp_timestamp_reply_ip_id");
 
 return OK;
 }

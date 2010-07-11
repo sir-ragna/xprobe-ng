@@ -608,16 +608,16 @@ int tcp_handshake_mod_init(Xprobe_Module_Hdlr *pt,const char *nm) {
     tcp_handshake->set_name(nm);
     xprobe_mdebug(XPROBE_DEBUG_MODULES, "Initializing the TCP handshake module\n");
     pt->register_module(tcp_handshake);
-	pt->add_keyword(tcp_handshake->get_id(),(string&)"tcp_syn_ack_ttl");
-	pt->add_keyword(tcp_handshake->get_id(),(string&)"tcp_syn_ack_ip_id");
-	pt->add_keyword(tcp_handshake->get_id(),(string&)"tcp_syn_ack_tos");
-	pt->add_keyword(tcp_handshake->get_id(),(string&)"tcp_syn_ack_df");
-	pt->add_keyword(tcp_handshake->get_id(),(string&)"tcp_syn_ack_ack");
-	pt->add_keyword(tcp_handshake->get_id(),(string&)"tcp_syn_ack_window_size");
-	pt->add_keyword(tcp_handshake->get_id(),(string&)"tcp_syn_ack_options_order");
-	pt->add_keyword(tcp_handshake->get_id(),(string&)"tcp_syn_ack_wscale");
-	pt->add_keyword(tcp_handshake->get_id(),(string&)"tcp_syn_ack_tsval");
-	pt->add_keyword(tcp_handshake->get_id(),(string&)"tcp_syn_ack_tsecr");
+	pt->add_keyword(tcp_handshake->get_id(),"tcp_syn_ack_ttl");
+	pt->add_keyword(tcp_handshake->get_id(),"tcp_syn_ack_ip_id");
+	pt->add_keyword(tcp_handshake->get_id(),"tcp_syn_ack_tos");
+	pt->add_keyword(tcp_handshake->get_id(),"tcp_syn_ack_df");
+	pt->add_keyword(tcp_handshake->get_id(),"tcp_syn_ack_ack");
+	pt->add_keyword(tcp_handshake->get_id(),"tcp_syn_ack_window_size");
+	pt->add_keyword(tcp_handshake->get_id(),"tcp_syn_ack_options_order");
+	pt->add_keyword(tcp_handshake->get_id(),"tcp_syn_ack_wscale");
+	pt->add_keyword(tcp_handshake->get_id(),"tcp_syn_ack_tsval");
+	pt->add_keyword(tcp_handshake->get_id(),"tcp_syn_ack_tsecr");
 return OK;
 }
 

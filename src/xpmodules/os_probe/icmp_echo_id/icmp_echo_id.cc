@@ -43,14 +43,15 @@ int icmp_echo_id_mod_init(Xprobe_Module_Hdlr *pt,const char *nm) {
     ICMP_Echo_Id_Mod *module = new ICMP_Echo_Id_Mod;
 
     module->set_name(nm);
-    xprobe_mdebug(XPROBE_DEBUG_MODULES, "Initializing the ICMP ECHO ID module\n");
+    xprobe_mdebug(XPROBE_DEBUG_MODULES, "Initializing the ICMP ECHO ID module..");
     pt->register_module(module);
-    pt->add_keyword(module->get_id(),(string &)"icmp_echo_reply");
-    pt->add_keyword(module->get_id(),(string &)"icmp_echo_code");
-    pt->add_keyword(module->get_id(),(string &)"icmp_echo_ip_id");
-    pt->add_keyword(module->get_id(),(string &)"icmp_echo_tos_bits");
-    pt->add_keyword(module->get_id(),(string &)"icmp_echo_df_bit");
-    pt->add_keyword(module->get_id(),(string &)"icmp_echo_reply_ttl");
+    pt->add_keyword(module->get_id(),"icmp_echo_reply");
+    pt->add_keyword(module->get_id(),"icmp_echo_code");
+    pt->add_keyword(module->get_id(),"icmp_echo_ip_id");
+    pt->add_keyword(module->get_id(),"icmp_echo_tos_bits");
+    pt->add_keyword(module->get_id(),"icmp_echo_df_bit");
+    pt->add_keyword(module->get_id(),"icmp_echo_reply_ttl");
+    xprobe_mdebug(XPROBE_DEBUG_MODULES, " done\n");
 
 return OK;
 }

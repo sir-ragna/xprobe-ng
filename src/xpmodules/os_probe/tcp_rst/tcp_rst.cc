@@ -38,12 +38,12 @@ int tcp_rst_mod_init(Xprobe_Module_Hdlr *pt, const char *nm) {
 	rst->set_name(nm);
 	xprobe_mdebug(XPROBE_DEBUG_MODULES, "Initializing the TCP RST module\n");
 	pt->register_module(rst);
-	pt->add_keyword(rst->get_id(), (string&)"tcp_rst_df");
-	pt->add_keyword(rst->get_id(), (string&)"tcp_rst_ip_id_1");
-	pt->add_keyword(rst->get_id(), (string&)"tcp_rst_ip_id_2");
-	pt->add_keyword(rst->get_id(), (string&)"tcp_rst_ip_id_strategy");
-	pt->add_keyword(rst->get_id(), (string&)"tcp_rst_ttl");
-	pt->add_keyword(rst->get_id(), (string&)"tcp_rst_reply");
+	pt->add_keyword(rst->get_id(), "tcp_rst_df");
+	pt->add_keyword(rst->get_id(), "tcp_rst_ip_id_1");
+	pt->add_keyword(rst->get_id(), "tcp_rst_ip_id_2");
+	pt->add_keyword(rst->get_id(), "tcp_rst_ip_id_strategy");
+	pt->add_keyword(rst->get_id(), "tcp_rst_ttl");
+	pt->add_keyword(rst->get_id(), "tcp_rst_reply");
 	return OK;
 }
 

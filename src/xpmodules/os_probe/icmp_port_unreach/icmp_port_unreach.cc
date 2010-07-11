@@ -92,6 +92,7 @@ int icmp_port_unreach_init(Xprobe_Module_Hdlr *pt,const char *nm) {
 	pt->register_module(port_unreach);
     // TODO: should use iterators here
 	for (i = 0; keyarr[i] !=""; i++)
+        cout << "adding keyword" << keyarr[i] << "\n";
 		pt->add_keyword (port_unreach->get_id(), keyarr[i]);
 	return(OK);
 }

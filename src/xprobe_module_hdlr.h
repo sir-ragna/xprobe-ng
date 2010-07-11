@@ -50,7 +50,7 @@ class Xprobe_Module_Hdlr {
 		void display_mod_names(void);
         int register_module(Xprobe_Module *);
         int add(int(*)(Xprobe_Module_Hdlr *, const char *),const char *);
-        void add_keyword(int,string &kwd);
+        void add_keyword(int,string kwd);
 		int get_module_count();
 		int modbyname(char *nm);
 		bool mod_disabled_by_default(unsigned int ix) {
