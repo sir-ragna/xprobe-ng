@@ -9,3 +9,5 @@ defines.h
 .project
 .cproject
 *.cache
+pxprobe
+xprobe-ng
