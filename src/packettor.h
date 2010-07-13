@@ -33,20 +33,25 @@
 using namespace tthread;
 using namespace usipp;
 
-class Packettor {
+class Packettor:public Runable {
 private:
-    bool initialized;
-    bool done;
+    /* singleton */
+    Packettor(void);
+    mutable bool initialized;
+    mutable bool done;
     int max_data_len;
-    thread t;
     Pcap pcap;
+    ThreadRunner tr;
+    mutable mutex mDataMutex; // serialize access to data
+    static Packettor _instance;
 
 public:
-    Packettor(void);
     ~Packettor(void);
+    static Packettor &instance();
     void run(void);
+    void init(void);
     int add_interface(char *);
-    void stop(void) { done = true; }
+    void stop(void);
 
 
 };

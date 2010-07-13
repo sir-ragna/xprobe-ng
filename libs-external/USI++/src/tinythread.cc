@@ -200,6 +200,10 @@ void * thread::wrapper_function(void * aArg)
 
 thread::thread(void (*aFunction)(void *), void * aArg)
 {
+    start(aFunction, aArg);
+}
+void thread::start(void (*aFunction)(void *), void * aArg)
+{
   // Serialize access to this thread structure
   lock_guard<mutex> guard(mDataMutex);
 
@@ -233,6 +237,7 @@ thread::~thread()
 {
   if(joinable())
     std::terminate();
+  cout << "Thread destructor done\n";
 }
 
 void thread::join()

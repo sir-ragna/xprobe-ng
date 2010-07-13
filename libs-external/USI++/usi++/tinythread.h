@@ -67,6 +67,9 @@ freely, subject to the following restrictions:
 
 // Generic includes
 #include <ostream>
+#include <list>
+#include <iostream>
+using namespace std;
 
 /// TinyThread++ version (major number).
 #define TINYTHREAD_VERSION_MAJOR 0
@@ -357,6 +360,7 @@ class thread {
     /// thread class. It is more similar to the pthread_create() (POSIX) and
     /// CreateThread() (Windows) functions.
     thread(void (*aFunction)(void *), void * aArg);
+    void start(void (*aFunction)(void *), void * aArg);
 
     /// Destructor.
     /// @note If the thread is joinable upon destruction, \c std::terminate()
@@ -461,6 +465,47 @@ class thread::id {
 
   private:
     unsigned long int mId;
+};
+
+class Runable {
+public:
+    virtual void run(void) {return;}
+};
+
+class ThreadRunner {
+private:
+    list <thread *> running;
+
+public:
+
+    static void start_runable(void *arg) {
+        Runable *r = (Runable *)arg;
+        r->run();
+    }
+
+    void startThread(Runable *r) {
+        thread *t = new thread(start_runable, r);
+        running.push_back(t);
+        cout << "start done\n";
+    };
+    void join() {
+        list <thread*>::iterator l;
+        for (l = running.begin(); l != running.end(); l++) {
+            if (((thread *)*l)->joinable())
+                ((thread *)*l)->join();
+        }
+        cout << "Join completed\n";
+    }
+    ~ThreadRunner() {
+        cout << "ThreadRunner destructor!!\n";
+        list <thread*>::iterator l;
+        join();
+        cout << "Deleting threads\n";
+        for (l = running.begin(); l != running.end(); l ++) delete ((thread *)*l);
+        cout << "Deleting completed\n";
+
+    }
+
 };
 
 

@@ -26,40 +26,61 @@ using namespace std;
 using namespace tthread;
 using namespace usipp;
 
-void run_packettor (void *arg) {
 
-cout << "started thread\n" ;
+Packettor Packettor::_instance;
+
+Packettor &Packettor::instance() {
+    return _instance;
 }
 Packettor::Packettor(void) {
-printf("Initializing packet capture\n");
-done = false;
-initialized = false;
-max_data_len = 1500;
-
+    cout << "Packettor constructed\n";
+}
+void Packettor::init(void) {
+   cout << "Packet capture thread started\n";
+    done = false;
+    initialized = false;
+    max_data_len = 1500;
+    //tr.startThread(this);
 }
 
 Packettor::~Packettor(void) {
-printf("Deinitialzing packet capture\n");
-t.join();
+    stop();
+}
+void Packettor::stop(void) {
+    cout << "Deinitialzing packet capture\n";
+    mDataMutex.lock();
+    done = true;
+    mDataMutex.unlock();
+    cout << "joining threads\n";
+    tr.join();
 }
 
 int Packettor::add_interface(char *iface) {
-    //pcap = Pcap();
+    mDataMutex.lock();
+    pcap = Pcap();
     cout << "Adding interface " << iface << "\n";
-    //t =thread(run_packettor, this);
-    //pcap.init_device(iface, 1, max_data_len);
-    //initialized = true;
-
+    pcap.init_device(iface, 1, max_data_len);
+    initialized = true;
+    mDataMutex.unlock();
+    return 0;
 }
 void Packettor::run(void) {
     char buf[1500];
-
+    cout << "Run thread started\n";
     while (!done) {
         if (initialized == true) {
-            pcap.sniffpack(buf, sizeof(buf));
-            cout << "got packet\n";
+            cout << "got sniff packet\n";
+            //pcap.sniffpack(buf, sizeof(buf));
         }
+        cout << "sleeping\n";
+        if (initialized == true) {
+            cout << "initialized true\n";
+        } else {
+            cout << "initialized false\n";
+        }
+        sleep(1);
 
     }
+    cout << "run thread done\n";
 
 }

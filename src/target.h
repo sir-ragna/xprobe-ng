@@ -76,7 +76,6 @@ class Signature {
 };
 class Target {
     private:
-        Packettor pktr;
         struct in_addr addr;
 		long send_delay; // delay in microsecs when sending packs
         map <int, char> tcp_ports;
@@ -97,9 +96,7 @@ class Target {
     Target(void) { addr.s_addr = INADDR_NONE; gen_sig = showroute = false; send_delay = distance = 0; rtt = 0.0; }
     Target(struct in_addr a) { set_addr(a); gen_sig = showroute = false; send_delay = distance = 0; rtt = 0.0; }
     Target(unsigned long int a) { addr.s_addr = a; gen_sig = showroute = false; send_delay = distance = 0; rtt = 0.0; }
-    void set_addr(struct in_addr a) {
-        memcpy((void *)&addr, (void *)&a, sizeof(struct in_addr));
-    }
+    void set_addr(struct in_addr);
     struct in_addr get_addr(void) { return addr; }
     /*              protocol, port, status */
     void add_port(int , int , char );
@@ -135,7 +132,6 @@ class Target {
 	void signature(const char *, const char *);
 	void signull(void) { fingerprint.signull(); }
 	bool port_is_open(int proto, int port);
-    void set_packettor(Packettor&);
 };
 
 #endif /* TARGET_H */

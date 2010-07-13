@@ -350,9 +350,10 @@ string Target::signature() {
 }
 
 
-void Target::set_packettor(Packettor &pk) {
-    pktr = pk;
-    pktr.add_interface(get_interface());
+void Target::set_addr(struct in_addr a) {
+    memcpy((void *)&addr, (void *)&a, sizeof(struct in_addr));
+    Packettor pk = Packettor::instance();
+    pk.add_interface(get_interface());
 
 }
 
