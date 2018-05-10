@@ -22,6 +22,8 @@ extern "C" {
 #include <pcap.h>
 }
 #include <string>
+#include <cstring>
+#include <unistd.h>
 
 #ifndef MAXHOSTLEN
 #define MAXHOSTLEN 1000

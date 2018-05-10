@@ -3376,7 +3376,7 @@ $as_echo "#define SOLARIS /**/" >>confdefs.h
 
 $as_echo "#define LINUX /**/" >>confdefs.h
 
-        LDFLAGS="${LDFLAGS} -ldl -rdynamic"
+        LDFLAGS="${LDFLAGS} -ldl -rdynamic -pthread "
         HAVE_LIBDL=1
         ;;
 esac
